@@ -1,0 +1,10 @@
+# Los .m de este repositorio son scripts de Power Query (M) de Microsoft Fabric.
+# GitHub Linguist los confunde con Mathematica/Wolfram, que es lo que aparecia
+# como lenguaje principal del repo. Se excluyen de la deteccion de lenguaje
+# en lugar de mentir con otro lenguaje.
+*.m linguist-detectable=false
+
+# Artefactos binarios
+*.pbix binary
+*.docx binary
+*.pdf binary

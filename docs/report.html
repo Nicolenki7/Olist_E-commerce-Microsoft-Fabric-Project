@@ -1,0 +1,142 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Olist: cuánto vende y cuánto cuesta el envío</title><style>:root{--t:#1f2328;--g:#57606a;--l:#d0d7de;--a:#0f62fe;--r:#da1e28;--f:#f6f8fa}
+*{box-sizing:border-box}
+body{margin:0;color:var(--t);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.w{max-width:1000px;margin:0 auto;padding:40px 24px 64px}
+header{border-bottom:1px solid var(--l);padding-bottom:24px}
+.eb{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--a);font-weight:700}
+h1{font-size:30px;line-height:1.25;margin:10px 0 12px;letter-spacing:-.02em}
+h2{font-size:19px;margin:0 0 4px}
+.pq{color:var(--g);font-size:16px;max-width:70ch;margin:0}
+.k{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:28px 0 8px}
+.k div{background:var(--f);border:1px solid var(--l);border-radius:10px;padding:14px 16px}
+.k b{display:block;font-size:24px;letter-spacing:-.02em}
+.k span{font-size:12px;color:var(--g);text-transform:uppercase;letter-spacing:.06em}
+.k em{display:block;font-size:12px;color:var(--g);font-style:normal}
+.fl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:28px 0 4px}
+.fl i{font-size:12px;color:var(--g);text-transform:uppercase;letter-spacing:.06em;font-style:normal;margin-right:4px}
+button{font:inherit;font-size:13px;padding:6px 14px;border-radius:999px;border:1px solid var(--l);background:#fff;color:var(--g);cursor:pointer;transition:.15s}
+button:hover{border-color:var(--a);color:var(--a)}
+button[aria-pressed=true]{background:var(--a);border-color:var(--a);color:#fff}
+section{margin:36px 0}
+.s{color:var(--g);font-size:13px;margin:0 0 18px}
+.b{display:grid;gap:9px}
+.f{display:grid;grid-template-columns:132px 1fr 92px;gap:12px;align-items:center}
+.f u{font-size:13px;color:var(--g);text-align:right;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p{background:var(--f);border-radius:4px;height:22px;overflow:hidden}
+.p div{height:100%;background:var(--a);border-radius:4px;transition:width .35s}
+.p .neg{background:var(--r)}
+.f s{font-size:13px;font-variant-numeric:tabular-nums;font-weight:600;text-align:right;text-decoration:none}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--l)}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--g)}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+ul,ol{color:var(--g);font-size:13.5px;padding-left:20px}
+li{margin:6px 0}
+footer{border-top:1px solid var(--l);margin-top:44px;padding-top:16px;font-size:12px;color:var(--g)}
+code{background:var(--f);padding:2px 5px;border-radius:4px;font-size:12.5px}</style></head><body><div class="w">
+<header><p class="eb">E-commerce · Olist (muestra pública)</p><h1>Olist: cuánto vende y cuánto cuesta el envío</h1><p class="pq">El dataset público de Olist tiene pedidos brasileños de 2016 a 2018. La pregunta que de verdad mueve decisiones en un marketplace no es el total facturado, sino cuánto de ese total se lo come el flete y en qué meses el volumen se cae, porque ahí está el margen del vendedor.</p></header>
+<div class="k"><div><span>Ventana</span><b>2016-09 → 2018-09</b><em>24 meses con datos</em></div><div><span>Pedidos</span><b>98.199</b><em>estados pagados o enviados</em></div><div><span>GTV</span><b>13,49 M R$</b><em>suma de price de los ítems</em></div><div><span>Flete sobre GTV</span><b>16,6 %</b><em>peso del envío</em></div></div><div class='fl'><i>Año</i><button data-v='todos' aria-pressed='True'>todos</button><button data-v='2016' aria-pressed='False'>2016</button><button data-v='2017' aria-pressed='False'>2017</button><button data-v='2018' aria-pressed='False'>2018</button></div><section><h2>GTV por mes</h2><p class='s'>miles de reales facturados</p><div class='b' id='g-g'></div></section>
+<section><h2>Pedidos por mes</h2><p class='s'>pedidos distintos con fecha de compra</p><div class='b' id='g-p'></div></section>
+<section><h2>Flete sobre GTV</h2><p class='s'>qué porcentaje del valor se va en envío</p><div class='b' id='g-f'></div></section>
+<section><h2>Estado de los pedidos</h2><p class='s'>% del total de pedidos del período</p><div class='b' id='g-e'></div></section>
+<section><h2>El año, en una fila</h2><p class='s'>2016 y 2018 están incompletos: el dataset corta en septiembre</p><table><thead><tr><th>Año</th><th>Meses</th><th>Pedidos</th><th>GTV</th><th>Ticket medio</th><th>Flete medio</th></tr></thead><tbody><tr><td>2016</td><td class='n'>3</td><td class='n'>293</td><td class='n'>45 k R$</td><td class='n'>152,65 R$</td><td class='n'>43,3 %</td></tr><tr><td>2017</td><td class='n'>12</td><td class='n'>44.375</td><td class='n'>6.108 k R$</td><td class='n'>137,66 R$</td><td class='n'>15,9 %</td></tr><tr><td>2018</td><td class='n'>9</td><td class='n'>53.531</td><td class='n'>7.341 k R$</td><td class='n'>137,14 R$</td><td class='n'>16,9 %</td></tr></tbody></table></section>
+<section><h2>Cómo se calcula</h2><p class="s">Agregado mensual calculado una vez desde el dataset público y versionado.</p><ol><li>Fuente: dataset público de Olist (olist_order_items_dataset y olist_orders_dataset), agregado una vez y versionado.</li><li>Solo se cuentan pedidos con estado pagado, aprobado, facturado, enviado o entregado; cancelados quedan fuera del GTV.</li><li>GTV = suma de price de los ítems; el flete se informa aparte, no se suma a la facturación.</li><li>El ticket medio es GTV / pedidos distintos, no el ticket de una línea.</li></ol></section>
+<section><h2>Qué no dice este informe</h2><p class="s">Lo que este recorte no permite afirmar.</p><ul><li>2016 y 2018 están incompletos: el dataset corta a principios de septiembre de 2018.</li><li>No hay coste del producto, así que no se puede calcular margen, solo ingreso bruto.</li><li>Los precios están en reales de 2016-2018, sin ajuste por inflación.</li><li>No se versionan los CSV originales (32 MB); el resumen es lo que queda auditable en el repo.</li></ul></section>
+<footer>Generado por <code>src/report.py</code> a partir de <code>data/olist_resumen_mensual.csv y data/olist_estado_pedidos.csv</code>. Sin dependencias,
+sin CDN: cada cifra de esta página sale de los datos del repositorio.</footer>
+</div><script>const DATOS={"filas":[
+{"a":"2016","g":"gtv","k":"2016-09","v":0.2,"u":"k"},
+{"a":"2016","g":"pedidos","k":"2016-09","v":2,"u":""},
+{"a":"2016","g":"flete","k":"2016-09","v":34.6,"u":"%"},
+{"a":"2016","g":"gtv","k":"2016-10","v":44.5,"u":"k"},
+{"a":"2016","g":"pedidos","k":"2016-10","v":290,"u":""},
+{"a":"2016","g":"flete","k":"2016-10","v":15.4,"u":"%"},
+{"a":"2016","g":"gtv","k":"2016-12","v":0.0,"u":"k"},
+{"a":"2016","g":"pedidos","k":"2016-12","v":1,"u":""},
+{"a":"2016","g":"flete","k":"2016-12","v":80.0,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-01","v":120.1,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-01","v":787,"u":""},
+{"a":"2017","g":"flete","k":"2017-01","v":14.0,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-02","v":245.0,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-02","v":1718,"u":""},
+{"a":"2017","g":"flete","k":"2017-02","v":15.8,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-03","v":368.3,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-03","v":2617,"u":""},
+{"a":"2017","g":"flete","k":"2017-03","v":15.5,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-04","v":353.8,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-04","v":2377,"u":""},
+{"a":"2017","g":"flete","k":"2017-04","v":14.7,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-05","v":503.2,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-05","v":3640,"u":""},
+{"a":"2017","g":"flete","k":"2017-05","v":15.8,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-06","v":429.9,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-06","v":3205,"u":""},
+{"a":"2017","g":"flete","k":"2017-06","v":16.2,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-07","v":492.3,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-07","v":3946,"u":""},
+{"a":"2017","g":"flete","k":"2017-07","v":17.6,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-08","v":568.2,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-08","v":4272,"u":""},
+{"a":"2017","g":"flete","k":"2017-08","v":16.5,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-09","v":621.4,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-09","v":4227,"u":""},
+{"a":"2017","g":"flete","k":"2017-09","v":15.4,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-10","v":660.2,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-10","v":4547,"u":""},
+{"a":"2017","g":"flete","k":"2017-10","v":15.9,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-11","v":1003.9,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-11","v":7421,"u":""},
+{"a":"2017","g":"flete","k":"2017-11","v":16.9,"u":"%"},
+{"a":"2017","g":"gtv","k":"2017-12","v":742.2,"u":"k"},
+{"a":"2017","g":"pedidos","k":"2017-12","v":5618,"u":""},
+{"a":"2017","g":"flete","k":"2017-12","v":16.2,"u":"%"},
+{"a":"2018","g":"gtv","k":"2018-01","v":945.5,"u":"k"},
+{"a":"2018","g":"pedidos","k":"2018-01","v":7187,"u":""},
+{"a":"2018","g":"flete","k":"2018-01","v":16.6,"u":"%"},
+{"a":"2018","g":"gtv","k":"2018-02","v":837.9,"u":"k"},
+{"a":"2018","g":"pedidos","k":"2018-02","v":6624,"u":""},
+{"a":"2018","g":"flete","k":"2018-02","v":17.0,"u":"%"},
+{"a":"2018","g":"gtv","k":"2018-03","v":981.1,"u":"k"},
+{"a":"2018","g":"pedidos","k":"2018-03","v":7168,"u":""},
+{"a":"2018","g":"flete","k":"2018-03","v":17.5,"u":"%"},
+{"a":"2018","g":"gtv","k":"2018-04","v":993.6,"u":"k"},
+{"a":"2018","g":"pedidos","k":"2018-04","v":6919,"u":""},
+{"a":"2018","g":"flete","k":"2018-04","v":16.4,"u":"%"},
+{"a":"2018","g":"gtv","k":"2018-05","v":992.9,"u":"k"},
+{"a":"2018","g":"pedidos","k":"2018-05","v":6833,"u":""},
+{"a":"2018","g":"flete","k":"2018-05","v":15.4,"u":"%"},
+{"a":"2018","g":"gtv","k":"2018-06","v":863.3,"u":"k"},
+{"a":"2018","g":"pedidos","k":"2018-06","v":6145,"u":""},
+{"a":"2018","g":"flete","k":"2018-06","v":18.2,"u":"%"},
+{"a":"2018","g":"gtv","k":"2018-07","v":878.0,"u":"k"},
+{"a":"2018","g":"pedidos","k":"2018-07","v":6233,"u":""},
+{"a":"2018","g":"flete","k":"2018-07","v":18.4,"u":"%"},
+{"a":"2018","g":"gtv","k":"2018-08","v":848.9,"u":"k"},
+{"a":"2018","g":"pedidos","k":"2018-08","v":6421,"u":""},
+{"a":"2018","g":"flete","k":"2018-08","v":17.5,"u":"%"},
+{"a":"2018","g":"gtv","k":"2018-09","v":0.1,"u":"k"},
+{"a":"2018","g":"pedidos","k":"2018-09","v":1,"u":""},
+{"a":"2018","g":"flete","k":"2018-09","v":14.8,"u":"%"},
+{"a":"todos","g":"estado","k":"delivered","v":97.0,"u":"%"},
+{"a":"todos","g":"estado","k":"shipped","v":1.1,"u":"%"},
+{"a":"todos","g":"estado","k":"canceled","v":0.6,"u":"%"},
+{"a":"todos","g":"estado","k":"unavailable","v":0.6,"u":"%"},
+{"a":"todos","g":"estado","k":"invoiced","v":0.3,"u":"%"},
+{"a":"todos","g":"estado","k":"processing","v":0.3,"u":"%"},
+{"a":"todos","g":"estado","k":"created","v":0.0,"u":"%"},
+{"a":"todos","g":"estado","k":"approved","v":0.0,"u":"%"}
+],"graficos":[{"id":"g","grupo":"gtv","titulo":"GTV por mes","subtitulo":"miles de reales facturados","unidad":"k"},{"id":"p","grupo":"pedidos","titulo":"Pedidos por mes","subtitulo":"pedidos distintos con fecha de compra","unidad":""},{"id":"f","grupo":"flete","titulo":"Flete sobre GTV","subtitulo":"qué porcentaje del valor se va en envío","unidad":"%"},{"id":"e","grupo":"estado","titulo":"Estado de los pedidos","subtitulo":"% del total de pedidos del período","unidad":"%"}]};const D=DATOS;let act='todos';
+const num=(v,u)=>{const n=Math.abs(v).toLocaleString('es-ES',{maximumFractionDigits:u==='%'?1:0});return (v<0?'-':'')+n+(u==='%'?' %':'')};
+function pinta(){D.graficos.forEach(g=>{const c=document.getElementById('g-'+g.id);
+const fs=D.filas.filter(f=>f.g===g.grupo&&(act==='todos'||f.a===act));
+if(!fs.length){c.innerHTML='<p class="s">Sin datos para este filtro.</p>';return}
+const o={};fs.forEach(f=>{o[f.k]=(o[f.k]||0)+f.v});
+const ks=(g.orden||Object.keys(o)).filter(k=>k in o),vs=ks.map(k=>o[k]);
+const max=Math.max(...vs.map(Math.abs),1),u=g.unidad||fs[0].u||'';
+c.innerHTML=ks.map((k,i)=>{const v=vs[i];
+return '<div class="f"><u>'+k+'</u><div class="p"><div class="'+(v<0?'neg':'')+'" style="width:'+Math.max(Math.abs(v)/max*100,.6)+'%"></div></div><s>'+num(v,u)+'</s></div>'}).join('')})}
+document.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{act=b.dataset.v;
+document.querySelectorAll('button').forEach(o=>o.setAttribute('aria-pressed',o===b));pinta()}));
+pinta();</script></body></html>

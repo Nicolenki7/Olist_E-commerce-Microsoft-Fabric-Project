@@ -9,6 +9,12 @@
 
 ---
 
+## 📊 Interactive report
+
+**[Open the interactive report →](https://nicolenki7.github.io/Olist_E-commerce-Microsoft-Fabric-Project/report.html)** — monthly revenue, freight share and order status, rebuilt from the CSVs in `data/`.
+
+---
+
 ## 📋 Overview
 
 Complete data engineering solution for **Olist** (major Brazilian e-commerce platform) transforming raw transactional data into actionable insights on revenue performance, geographical distribution, and supply chain efficiency.
@@ -96,9 +102,14 @@ Features Power Query M ETL, manual state translation with geocoding, Portuguese�
 | Metric | Value |
 | :--- | :--- |
 | **Data Source** | Olist Brazilian E-commerce (public dataset) |
-| **Records Processed** | 100K+ orders |
+| **Orders analysed** | 98,199 |
+| **Gross merchandise value** | R$ 13.49 M |
+| **Freight share of order value** | 16.6% |
+| **Monthly series** | 24 months (2016–2018, both ends partial) |
 | **Geographic Coverage** | All Brazilian states |
 | **Product Categories** | 70+ categories mapped |
+
+Figures come from `data/olist_resumen_mensual.csv` and `data/olist_estado_pedidos.csv`, aggregated from the public dataset; the raw files (~32 MB) are not committed.
 
 ---
 
@@ -106,10 +117,11 @@ Features Power Query M ETL, manual state translation with geocoding, Portuguese�
 
 ```
 Olist_E-commerce-Microsoft-Fabric-Project/
-├── data/                              # Raw CSV files
+├── data/                              # Raw CSV files + aggregated summaries
 ├── dataflows/                         # Power Query M scripts
 ├── powerbi/                           # Power BI report (.pbix)
-├── docs/                              # Documentation
+├── docs/                              # Documentation + report.html
+├── src/build_report.py                # builds docs/report.html from the CSVs
 ├── geocoding/                         # ZIP-to-State mapping files
 └── README.md                          # Project documentation
 ```
@@ -136,6 +148,13 @@ cd Olist_E-commerce-Microsoft-Fabric-Project
 # 4. Build Star Schema model
 # 5. Import Power BI report
 # 6. Configure DAX measures and relationships
+```
+
+### Rebuild the report
+
+```bash
+pip install pandas
+python src/build_report.py     # writes docs/report.html
 ```
 
 ---
@@ -169,6 +188,15 @@ cd Olist_E-commerce-Microsoft-Fabric-Project
 
 ---
 
+## 🚧 Limitations
+
+- **2016 and 2018 are partial years** in the dataset; the monthly series must not be read as full-year comparisons.
+- **No product cost** in the data, so the report shows gross order value, not margin.
+- Order status is a snapshot at extraction time, not a live feed.
+- The aggregated CSVs are what the report rebuilds from; the original 32 MB dataset is fetched separately.
+
+---
+
 ## 🔮 Future Enhancements
 
 - [ ] Real-time order ingestion pipeline
@@ -184,6 +212,7 @@ cd Olist_E-commerce-Microsoft-Fabric-Project
 | Resource | URL |
 | :--- | :--- |
 | **Repository** | https://github.com/Nicolenki7/Olist_E-commerce-Microsoft-Fabric-Project |
+| **Interactive report** | https://nicolenki7.github.io/Olist_E-commerce-Microsoft-Fabric-Project/report.html |
 | **Live Dashboard** | [View in Fabric](https://app.fabric.microsoft.com/links/f5-BZT6Z_l) |
 | **Dataset** | [Olist on Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) |
 
@@ -193,7 +222,7 @@ cd Olist_E-commerce-Microsoft-Fabric-Project
 
 Solución completa de ingeniería de datos para **Olist** (plataforma brasileña de e-commerce) transformando datos transaccionales en insights sobre rendimiento de ingresos, distribución geográfica y eficiencia de supply chain.
 
-Incluye ETL con **Power Query M**, traducción Portugués→Inglés, mapeo de categorías, geocodificación manual por ZIP, y modelado Fact/Dimension para análisis BI comprehensivo.
+Incluye ETL con **Power Query M**, traducción Portugués→Inglés, mapeo de categorías, geocodificación manual por ZIP, y modelado Fact/Dimension para análisis BI comprehensivo. El informe interactivo resume **98.199 pedidos**, **13,49 M R$** de valor bruto y un flete que representa el **16,6 %** del valor de los pedidos, con 2016 y 2018 incompletos.
 
 ---
 
@@ -205,13 +234,9 @@ MIT License — Feel free to fork, modify, and use for personal or commercial pr
 
 ## 👤 Author
 
-**Nicolás Zalazar** | Senior Data Engineer & Microsoft Fabric Specialist
+**Nicolás Zalazar** | Data Analyst · Aspiring Data Engineer · Mallorca, Spain
 
 - GitHub: [@Nicolenki7](https://github.com/Nicolenki7)
 - LinkedIn: [nicolas-zalazar-63340923a](https://www.linkedin.com/in/nicolas-zalazar-63340923a)
 - Portfolio: [nicolenki7.github.io/Portfolio](https://nicolenki7.github.io/Portfolio/)
 - Email: zalazarn046@gmail.com
-
----
-
-*Last Updated: March 2026*
